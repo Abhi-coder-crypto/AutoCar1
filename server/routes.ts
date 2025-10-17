@@ -21,7 +21,7 @@ import { getNextSequence } from "./models/Counter";
 import { checkAndNotifyLowStock, notifyNewOrder, notifyServiceVisitStatus, notifyPaymentOverdue, notifyPaymentDue } from "./utils/notifications";
 import { logActivity } from "./utils/activityLogger";
 import { User } from "./models/User";
-import { authenticateUser, createUser, ROLE_PERMISSIONS } from "./auth";
+import { authenticateUser, createUser, ROLE_PERMISSIONS, generateToken } from "./auth";
 import { requireAuth, requireRole, attachUser, requirePermission } from "./middleware";
 import { insertCustomerSchema, insertVehicleSchema } from "./schemas";
 import { RegistrationCustomer } from "./models/RegistrationCustomer";
@@ -68,13 +68,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ error: "Invalid credentials" });
       }
       
-      (req as any).session.userId = user._id.toString();
-      (req as any).session.userRole = user.role;
-      (req as any).session.userName = user.name;
-      (req as any).session.userEmail = user.email;
+      const token = generateToken(
+        user._id.toString(),
+        user.role,
+        user.name,
+        user.email
+      );
       
-      if (user.role !== 'Admin') {
-        (req as any).session.lastActivity = Date.now();
+      if ((req as any).session) {
+        (req as any).session.userId = user._id.toString();
+        (req as any).session.userRole = user.role;
+        (req as any).session.userName = user.name;
+        (req as any).session.userEmail = user.email;
+        
+        if (user.role !== 'Admin') {
+          (req as any).session.lastActivity = Date.now();
+        }
       }
       
       await logActivity({
@@ -92,6 +101,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         email: user.email,
         name: user.name,
         role: user.role,
+        token,
       });
     } catch (error) {
       res.status(400).json({ error: "Login failed" });
@@ -109,7 +119,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/auth/me", requireAuth, async (req, res) => {
     try {
-      const userId = (req as any).session.userId;
+      const userId = (req as any).user.id;
       const user = await User.findById(userId).select('-passwordHash');
       
       if (!user) {

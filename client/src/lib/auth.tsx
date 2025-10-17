@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { apiRequest, queryClient } from './queryClient';
+import { apiRequest, queryClient, setAuthToken, clearAuthToken } from './queryClient';
 
 interface User {
   id: string;
@@ -44,6 +44,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return response.json();
     },
     onSuccess: async (data) => {
+      if (data.token) {
+        setAuthToken(data.token);
+      }
       setUser(data);
       await queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
       await queryClient.refetchQueries({ queryKey: ['/api/auth/me'] });
@@ -66,6 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await apiRequest('POST', '/api/auth/logout');
     },
     onSuccess: () => {
+      clearAuthToken();
       setUser(null);
       queryClient.clear();
     },

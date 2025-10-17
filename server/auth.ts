@@ -1,5 +1,12 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { User } from './models/User';
+
+const JWT_SECRET = process.env.JWT_SECRET || process.env.SESSION_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET or SESSION_SECRET environment variable must be set');
+}
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
@@ -32,6 +39,28 @@ export async function authenticateUser(email: string, password: string) {
   }
   
   return user;
+}
+
+export function generateToken(userId: string, userRole: string, userName: string, userEmail: string): string {
+  return jwt.sign(
+    {
+      userId,
+      userRole,
+      userName,
+      userEmail,
+      iat: Date.now(),
+    },
+    JWT_SECRET!,
+    { expiresIn: '24h' }
+  );
+}
+
+export function verifyToken(token: string): any {
+  try {
+    return jwt.verify(token, JWT_SECRET!);
+  } catch (error) {
+    return null;
+  }
 }
 
 export const ROLE_PERMISSIONS = {
