@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { apiRequest, queryClient, setAuthToken, clearAuthToken } from './queryClient';
+import { apiRequest, queryClient, setAuthToken, clearAuthToken, getQueryFn } from './queryClient';
 
 interface User {
   id: string;
@@ -25,6 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const { data: userData, isLoading, error } = useQuery<User>({
     queryKey: ['/api/auth/me'],
+    queryFn: getQueryFn({ on401: 'returnNull' }),
     retry: false,
     refetchOnWindowFocus: false,
     staleTime: 0,

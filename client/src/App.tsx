@@ -61,10 +61,7 @@ function ProtectedRoute({ component: Component }: { component: React.ComponentTy
 
   useEffect(() => {
     if (!isLoading && !user && location !== '/login' && location !== '/select-role') {
-      const timer = setTimeout(() => {
-        setLocation('/select-role');
-      }, 100);
-      return () => clearTimeout(timer);
+      setLocation('/select-role');
     }
   }, [user, isLoading, setLocation, location]);
 
@@ -91,7 +88,7 @@ function ProtectedRoute({ component: Component }: { component: React.ComponentTy
   }
 
   if (!user) {
-    return null;
+    return <div className="flex items-center justify-center h-screen">Redirecting...</div>;
   }
 
   return <Component />;
