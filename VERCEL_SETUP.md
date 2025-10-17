@@ -67,18 +67,27 @@ After deployment:
 - **MongoDB Connection**: Uses connection caching to reuse connections across function invocations
 - **Authentication**: Uses JWT tokens (Bearer authentication) which works perfectly with serverless
 - **Sessions**: Session support is disabled in serverless mode; authentication relies on JWT tokens
+- **Static Files**: The `dist/public/` folder is bundled with the serverless function using `includeFiles`
 
 ### Build Process
 
-1. Frontend builds to `dist/public/` (static files served by Vercel CDN)
+1. Frontend builds to `dist/public/` (Vite build output)
 2. Backend builds to `dist/index.js` (not used in serverless mode)
 3. `api/index.ts` is compiled and deployed as a serverless function
+4. Static assets from `dist/public/` are included in the function deployment
 
 ### Routing
 
-- All routes (`/`, `/api/*`, etc.) are handled by the serverless function
-- Static files are served from the build output
-- The function serves the React app for all non-API routes
+- `/api/*` routes are handled directly by the serverless function
+- All other routes are rewritten to `api/index.ts` 
+- Static files (JS, CSS, images) are served by Express static middleware from `dist/public/`
+- The React SPA is served for all non-API routes
+
+### Key Configuration Files
+
+- **vercel.json**: Configures function timeout (30s) and includes static files
+- **api/index.ts**: Serverless handler that sets up Express, routes, and static file serving
+- **server/db.ts**: MongoDB connection with global caching for serverless
 
 ## Troubleshooting
 

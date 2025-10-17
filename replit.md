@@ -23,7 +23,14 @@ Core entities include Product (with multi-image support, variants, barcode, comp
 **Vehicle ID System**: Each vehicle receives a unique, auto-generated Vehicle ID (VEH001, VEH002, etc.) using a Counter-based sequence. This ID serves as the primary reference for all service records, invoices, and warranty tracking. Vehicle records also include variant (Top/Base) and color fields for comprehensive vehicle tracking.
 
 ### Authentication & Authorization
-The system uses **session-based authentication** with Express sessions and secure HTTP-only cookies. Password hashing is handled by **bcryptjs**. **Role-Based Access Control (RBAC)** defines five distinct roles: Admin, Inventory Manager, Sales Executive, HR Manager, and Service Staff, each with granular permissions. Two-step OTP verification is implemented for login.
+The system uses **dual authentication**: session-based authentication (for development) and **JWT token-based authentication** (for production/serverless). Password hashing is handled by **bcryptjs**. **Role-Based Access Control (RBAC)** defines five distinct roles: Admin, Inventory Manager, Sales Executive, HR Manager, and Service Staff, each with granular permissions. Two-step OTP verification is implemented for login.
+
+### Deployment Architecture
+The application supports deployment to both **Replit** (traditional server) and **Vercel** (serverless):
+- **Replit**: Uses session-based auth with MemoryStore, long-running Express server on port 5000
+- **Vercel**: Uses JWT token authentication, serverless functions via `api/index.ts` with MongoDB connection caching
+- Static files are bundled with the serverless function using `includeFiles` configuration
+- Environment variables required for Vercel: `MONGODB_URI`, `JWT_SECRET` (or `SESSION_SECRET`)
 
 ### UI/UX Decisions
 Global card styling features `border-2 border-orange-300 dark:border-orange-700`. Vehicle images use `border-2 border-orange-300 dark:border-orange-700`, `object-contain`, and gradient backgrounds. Responsive layouts are used for dashboards. Forms feature conditional fields and dynamic dropdowns. Image uploads have live previews, base64 encoding, and validation. Employee photo sizes are increased, and documents are viewed in a dedicated viewer.
