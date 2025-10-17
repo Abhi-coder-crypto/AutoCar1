@@ -71,10 +71,10 @@ After deployment:
 
 ### Build Process
 
-1. Frontend builds to `dist/public/` (Vite build output)
-2. Backend builds to `dist/index.js` (not used in serverless mode)
-3. `api/index.ts` is compiled and deployed as a serverless function
-4. Static assets from `dist/public/` are included in the function deployment
+1. Frontend builds to `dist/public/` (Vite build output with all static assets)
+2. Backend bundles to `api/index.js` (esbuild bundles all TypeScript code into single JavaScript file)
+3. `api/index.js` is deployed as a serverless function with `dist/public/` included
+4. All dependencies and imports are bundled - no external files needed at runtime
 
 ### Routing
 

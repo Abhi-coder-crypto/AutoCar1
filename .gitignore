@@ -9,3 +9,4 @@ vite.config.ts.*
 .env.production.local
 .env.development.local
 .vercel
+api/index.js
