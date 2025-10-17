@@ -85,9 +85,13 @@ After deployment:
 
 ### Key Configuration Files
 
-- **vercel.json**: Configures function timeout (30s) and includes static files
+- **vercel.json**: Uses `@vercel/node` builder to deploy api/index.ts as a serverless function with 30s timeout and includes dist/public files
 - **api/index.ts**: Serverless handler that sets up Express, routes, and static file serving
 - **server/db.ts**: MongoDB connection with global caching for serverless
+
+### Important Configuration Notes
+
+The `vercel.json` uses the `builds` and `routes` approach (not `rewrites`) to ensure Vercel properly recognizes and executes the serverless function. The `includeFiles` config bundles your built frontend assets with the function.
 
 ## Troubleshooting
 

@@ -1,0 +1,65 @@
+10:32:19.689 Running build in Washington, D.C., USA (East) – iad1
+10:32:19.689 Build machine configuration: 2 cores, 8 GB
+10:32:19.709 Cloning github.com/Abhi-coder-crypto/AutoCar1 (Branch: main, Commit: 1920e83)
+10:32:20.555 Cloning completed: 846.000ms
+10:32:20.656 Restored build cache from previous deployment (G6EVJpXnZGcRZXyRFDqCYTdBqJsR)
+10:32:21.184 Running "vercel build"
+10:32:21.621 Vercel CLI 48.2.9
+10:32:22.800 Running "install" command: `npm install`...
+10:32:25.110 
+10:32:25.111 up to date, audited 512 packages in 2s
+10:32:25.111 
+10:32:25.112 65 packages are looking for funding
+10:32:25.112   run `npm fund` for details
+10:32:25.137 
+10:32:25.138 8 vulnerabilities (3 low, 5 moderate)
+10:32:25.138 
+10:32:25.138 To address issues that do not require attention, run:
+10:32:25.138   npm audit fix
+10:32:25.139 
+10:32:25.139 To address all issues (including breaking changes), run:
+10:32:25.139   npm audit fix --force
+10:32:25.140 
+10:32:25.140 Run `npm audit` for details.
+10:32:25.426 
+10:32:25.430 > rest-express@1.0.0 build
+10:32:25.430 > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+10:32:25.430 
+10:32:25.816 [36mvite v5.4.20 [32mbuilding for production...[36m[39m
+10:32:25.871 transforming...
+10:32:26.204 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+10:32:26.204   npx update-browserslist-db@latest
+10:32:26.204   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+10:32:27.628 
+10:32:27.629 A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+10:32:32.012 [32m✓[39m 2090 modules transformed.
+10:32:32.522 rendering chunks...
+10:32:32.560 computing gzip size...
+10:32:32.614 [2m../dist/public/[22m[32mindex.html                               [39m[1m[2m  1.62 kB[22m[1m[22m[2m │ gzip:   0.71 kB[22m
+10:32:32.615 [2m../dist/public/[22m[2massets/[22m[32mimage_1760164042662-BDoxgu8-.png  [39m[1m[2m198.52 kB[22m[1m[22m
+10:32:32.615 [2m../dist/public/[22m[2massets/[22m[35mindex-CaF-Hybj.css                [39m[1m[2m 83.71 kB[22m[1m[22m[2m │ gzip:  13.73 kB[22m
+10:32:32.616 [2m../dist/public/[22m[2massets/[22m[36mindex-BywYvo-_.js                 [39m[1m[33m805.64 kB[39m[22m[2m │ gzip: 216.06 kB[22m
+10:32:32.616 [33m
+10:32:32.616 (!) Some chunks are larger than 500 kB after minification. Consider:
+10:32:32.616 - Using dynamic import() to code-split the application
+10:32:32.616 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+10:32:32.616 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+10:32:32.617 [32m✓ built in 6.78s[39m
+10:32:32.862 
+10:32:32.862   dist/index.js  103.7kb
+10:32:32.864 
+10:32:32.864 ⚡ Done in 18ms
+10:32:32.907 Installing dependencies...
+10:32:33.750 
+10:32:33.751 up to date in 784ms
+10:32:33.752 
+10:32:33.752 65 packages are looking for funding
+10:32:33.752   run `npm fund` for details
+10:32:33.998 Using TypeScript 5.6.3 (local user-provided)
+10:32:48.864 Build Completed in /vercel/output [26s]
+10:32:49.121 Deploying outputs...
+10:32:56.365 Deployment completed
+10:32:57.195 Creating build cache...
+10:33:14.998 Created build cache: 17.797s
+10:33:14.999 Uploading build cache [80.55 MB]
+10:33:16.407 Build cache uploaded: 1.412s
